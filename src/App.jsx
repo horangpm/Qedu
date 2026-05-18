@@ -730,17 +730,19 @@ export default function App() {
   const [profile, setProfile] = useState({ role: "", level: "", grade: "" });
   const [book, setBook] = useState(null);
   const [method, setMethod] = useState("");
+  const [showKeyModal, setShowKeyModal] = useState(false);
   const [apiKey, setApiKey] = useState(
-    () => import.meta.env.VITE_GEMINI_API_KEY || localStorage.getItem("gemini_api_key") || ""
+    () => localStorage.getItem("gemini_api_key") || import.meta.env.VITE_GEMINI_API_KEY || ""
   );
 
   function handleSaveKey(key) {
     localStorage.setItem("gemini_api_key", key);
     setApiKey(key);
+    setShowKeyModal(false);
   }
 
-  // API 키가 없으면 입력 모달 표시
-  if (!apiKey) {
+  // API 키가 없거나 강제 키 입력 모드가 켜진 경우 모달 표시
+  if (!apiKey || showKeyModal) {
     return <ApiKeyModal onSave={handleSaveKey} />;
   }
 
@@ -763,10 +765,10 @@ export default function App() {
           )}
           <button
             className="header-key-btn"
-            onClick={() => { localStorage.removeItem("gemini_api_key"); setApiKey(""); }}
+            onClick={() => setShowKeyModal(true)}
             title="API 키 변경"
           >
-            🔑
+            🔑 API 키 변경
           </button>
         </div>
       </header>
