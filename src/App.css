@@ -281,6 +281,8 @@ body {
   transition: border-color 0.2s, box-shadow 0.2s;
   font-family: inherit;
   background: #fff;
+  color: #111111 !important; /* 모바일 글자 가독성 블랙 고정 */
+  -webkit-text-fill-color: #111111 !important; /* iOS 사파리 렌더링 강제 고정 */
 }
 
 .input:focus {
